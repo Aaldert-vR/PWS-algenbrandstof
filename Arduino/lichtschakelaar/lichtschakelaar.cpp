@@ -1,10 +1,16 @@
+#include "../lib/atmega.h"
+#include "environment.ino"
 #define AAN HIGH
 #define UIT LOW
 const int licht = 13;
 const int knop = 12;
-byte aan_uit = UIT;
+int aan_uit = UIT;
 const int uren_wachten[2]={12,12};
-int wachten = uren_wachten[aan_uit];
+int wachten = uren_wachten[(int) aan_uit];
+int knop_ingedrukt;
+int uren_aan;
+
+int vorigeMillis;
 
 void setup(){
     pinMode(licht, OUTPUT);
@@ -17,6 +23,8 @@ void loop(){
     knop_ingedrukt=digitalRead(knop);
     if (millis()-vorigeMillis==3600*1000*uren_aan || knop_ingedrukt==HIGH){
         aan_uit=!(aan_uit);
-        wachten=uren_wachten[aan_uit];
+        wachten=uren_wachten[(int) aan_uit];
     }
 }
+
+#include "../lib/atmega.cpp"
